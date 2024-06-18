@@ -57,4 +57,6 @@ ostream operator<<(ostream &o, Piece &p) {
     }
 }
 
+#include "Board.hpp"
+
 #endif
