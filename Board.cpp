@@ -1,7 +1,7 @@
 #include "common.hpp"
 
 Board::Board() {
-    b = MAT {
+    b = BRD {
         {Rook,Knight,Bishop,Queen,King,Bishop,Knight,Rook},
         {Pawn,Pawn,Pawn,Pawn,Pawn,Pawn,Pawn,Pawn},
         {None,None,None,None,None,None,None,None},
@@ -11,6 +11,7 @@ Board::Board() {
         {Pawn,Pawn,Pawn,Pawn,Pawn,Pawn,Pawn,Pawn},
         {Rook,Knight,Bishop,Queen,King,Bishop,Knight,Rook}
     }
+    //set correct colours
 }
 
 void Board::print() {
@@ -26,6 +27,10 @@ void Board::move(Coord c1, Coord c2) { //g
 }
 
 bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
+
+    //check not moving
+    if (c1 == c2)
+        return false; //piece didn't move, invalid
 
     //check OOB
     if (c1.row < 0 || c1.row > 7 || c1.col < 0 || c1.col > 7 ||
@@ -62,7 +67,7 @@ bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
                     return true; //and c1 and c2 on same column, or en passant is possible, valid
             }
         }
-        else { //if black turn --- LEFT HERE
+        else { //if black turn
 
             if (c2.row != c1.row + 1) 
                 return false; //if c2 is not right below, invalid
@@ -79,13 +84,54 @@ bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
         }
     }
 
-    if (p.type == 2) { //ROOK
+    if (p1.type == 2) { //ROOK
         if !(c1.row == c2.row || c1.col == c2.col)
             return false; //if c2 not on the same row or column, invalid
+
+        if (obstructed(c1, c2))
+            return false;
+        
+        return true; //otherwise valid
     }
 
-    if (p.type == 3) { //KNIGHT
+    if (p1.type == 3) { //KNIGHT
+        if (
+        abs(c1.row - c2.row) == 2 && abs(c1.col - c2.col) == 1 //if 2 row moves and 1 col
+        || 
+        abs(c1.row - c2.row) == 1 && abs(c1.col - c2.col) == 2 //or 2 col moves and 1 row
+        )
+            return true; //move valid
+    }
 
+    if (p1.type == 4) { //BISHOP
+        if !(abs(c1.row - c2.row) == abs(c1.col - c2.col)) //if move is not diagonal
+            return false; //invalid
+        
+        if (obstructed(c1, c2))
+            return false;
+        
+        return true; //otherwise move is valid
+    }
+
+    if (p1.type == 5) { //QUEEN
+        if !(c1.row == c2.row || c1.col == c2.col //rook rules
+        ||
+        abs(c1.row - c2.row) == abs(c1.col - c2.col)) //bishop rules
+            return false; //if both are invalid, move is invalid
+        
+        if (obstructed(c1, c2))
+            return false;
+        
+        return true; //otherwise move is valid
+    }
+
+    if (p1.type == 6) { //KING
+        if (abs(c2.row - c1.row) > 1)
+            return false; //if king moves more than 1 row, invalid
+        if (abs(c2.col - c1.col) > 1)
+            return false; //if king moves more than 1 column, invalid
+
+            //make sure it can't move into check, still need to add check function
     }
 }
 
@@ -114,6 +160,80 @@ bool Board::enPassantable(Coord c) {
         return false; //has to have just double moved
         
     return true;
+}
+
+bool Board::obstructed (Coord c1, Coord c2) { //works for Q R B
+
+    //horizontal obstructions    
+
+    if (c1.col == c2.col) { //if only row changes
+        if (c2.row > c1.row) { //c2 is below c1
+            for (int r = c1.row+1; r < c2.row; r++) {
+                if (get_piece(Coord(r, c1.col)).type != 0) //if space between pieces not empty
+                    return true; //then obstructed
+            }
+        }
+        
+        else { //c2 above c1
+            for (int r = c1.row-1; r > c2.row; r--) {
+                if (get_piece(Coord(r, c1.col)).type != 0) //if space between pieces not empty
+                    return true; //then obstructed
+            }
+        }
+    }
+
+    //vertical obstructions
+
+    else if (c1.row == c2.row) { //if only column changes
+        else if (c2.col > c1.col) { //if c2 is right of c1
+            for (int c = c1.col+1; c < c2.col; r++) {
+                if (get_piece(Coord(c1.row, c)).type != 0) //if space between pieces not empty
+                    return true; //then obstructed
+            }
+        }
+
+        else { //c2 left of c1
+            for (int c = c1.col-1; c > c2.col; c--) {
+                if (get_piece(Coord(c1.row, c)).type != 0) //if space between pieces not empty
+                    return true; //then obstructed
+            }
+        }
+    }
+
+    //diagonal obstructions
+    //------------------
+    //dowm right
+    else if (c2.row > c1.row && c1.col > c2.col) { 
+        for (int r = c1.row+1, int c = c1.col+1; r < c2.row, c < c2.col; r++, c++) {
+            if (get_piece(Coord(r, c)).type != 0) //if space between pieces not empty
+                return true; //then obstructed
+        }
+    }
+    
+    //down left
+    else if (c2.row > c1.row && c1.col < c2.col) { 
+        for (int r = c1.row+1, int c = c1.col-1; r < c2.row, c > c2.col; r++, c--) {
+            if (get_piece(Coord(r, c)).type != 0) //if space between pieces not empty
+                return true; //then obstructed
+        }
+    }
+    
+    //up right
+    else if (c2.row < c1.row && c1.col > c2.col) { 
+        for (int r = c1.row-1, int c = c1.col+1; r > c2.row, c < c2.col; r--, c++) {
+            if (get_piece(Coord(r, c)).type != 0) //if space between pieces not empty
+                return true; //then obstructed
+        }
+    }
+    
+    //up left
+    else if (c2.row < c1.row && c1.col < c2.col) { 
+        for (int r = c1.row-1, int c = c1.col-1; r > c2.row, c > c2.col; r--, c--) {
+            if (get_piece(Coord(r, c)).type != 0) //if space between pieces not empty
+                return true; //then obstructed
+        }
+    }
+    return false; //no obstruction
 }
 
 void Board::set_piece(Coord c, Piece p) { b[c.row][c.col] = p; } //g
