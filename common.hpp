@@ -29,10 +29,18 @@ enum class Colour {
     BLACK,
 };
 
+void gotoxy(int x, int y) {
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
 struct Piece {
     Piece(Colour c) { colour = c; }
     const Colour colour;
     const int type;
+    virtual void print() = 0;
 };
 
 struct None : public Piece { type = 0; }
@@ -42,20 +50,6 @@ struct Knight : public Piece { type = 3; }
 struct Bishop : public Piece { type = 4; }
 struct Queen : public Piece { type = 5; }
 struct King : public Piece { type = 6; }
-
-ostream operator<<(ostream &o, ROW &r) { for (Piece p : r) cout << p; };
-
-ostream operator<<(ostream &o, Piece &p) {
-    switch(p) {
-        case NONE: print_none();
-        case PAWN: print_pawn();
-        case ROOK: print_pawn();
-        case KNIGHT: print_pawn();
-        case BISHOP: print_pawn();
-        case QUEEN: print_pawn();
-        case KING: print_pawn();
-    }
-}
 
 #include "Board.hpp"
 

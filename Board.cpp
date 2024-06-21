@@ -15,8 +15,18 @@ Board::Board() {
 }
 
 void Board::print() {
-    for (ROW r : b) 
-        cout << ROW; //g
+    int x = 0;
+    int y = 0;
+    int width = 50;
+    int height = 50;
+    for (ROW r : b) {
+        for (int i=0; i < width; i++)
+            cout << '-'
+        for (Piece p : r) {
+            p.print();
+            //ver line
+        }
+    }
 }
 
 void Board::move(Coord c1, Coord c2) { //g
@@ -131,7 +141,7 @@ bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
         if (abs(c2.col - c1.col) > 1)
             return false; //if king moves more than 1 column, invalid
 
-            //make sure it can't move into check, still need to add check function
+        //make sure it can't move into check, still need to add check function
     }
 }
 
