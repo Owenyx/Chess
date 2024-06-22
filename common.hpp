@@ -16,10 +16,7 @@ using ROW = vector<Piece>;
 using BRD = vector<ROW>;
 
 struct Coord {
-    Coord(int r, int c) {
-        row = r;
-        col = c;
-    }
+    Coord(int r, int c);
     int row;
     int col;
 };
@@ -29,34 +26,17 @@ enum class Colour {
     BLACK,
 };
 
-struct Piece {
-    Piece(Colour c) { colour = c; }
-    const Colour colour;
-    const int type;
-};
+void gotoxy(int x, int y);
 
-struct None : public Piece { type = 0; }
-struct Pawn : public Piece { type = 1; bool just_double_moved == false; }
-struct Rook : public Piece { type = 2; }
-struct Knight : public Piece { type = 3; }
-struct Bishop : public Piece { type = 4; }
-struct Queen : public Piece { type = 5; }
-struct King : public Piece { type = 6; }
+void gotocoor(Coord c);
 
-ostream operator<<(ostream &o, ROW &r) { for (Piece p : r) cout << p; };
+Coord getCursorPos();
 
-ostream operator<<(ostream &o, Piece &p) {
-    switch(p) {
-        case NONE: print_none();
-        case PAWN: print_pawn();
-        case ROOK: print_pawn();
-        case KNIGHT: print_pawn();
-        case BISHOP: print_pawn();
-        case QUEEN: print_pawn();
-        case KING: print_pawn();
-    }
-}
+Coord operator=(Coord c1, COORD c2);
+
+void vert_line(int h);
 
 #include "Board.hpp"
+#include "Pieces.hpp"
 
 #endif
