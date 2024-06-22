@@ -1,7 +1,7 @@
 #include "common.hpp"
 
 Board::Board() {
-    b = BRD {
+    BRD b = BRD {
         {Rook,Knight,Bishop,Queen,King,Bishop,Knight,Rook},
         {Pawn,Pawn,Pawn,Pawn,Pawn,Pawn,Pawn,Pawn},
         {None,None,None,None,None,None,None,None},
@@ -19,7 +19,7 @@ void Board::print() {
     int y = 0;
     int width = 12; //of the widest piece
     int height = 7; //of the tallest piece
-    string horz_line(width*8 + 9) //8 spaces per row + 9 seperating lines gives total width
+    string horz_line(width*8 + 9, ' ') //8 spaces per row + 9 seperating lines gives total width
 
     for (ROW r : b) {
         x = 0;
@@ -43,7 +43,7 @@ void Board::print() {
 void Board::move(Coord c1, Coord c2) { //g
     if (valid(c1, c2)) {
         set_piece(c2, get_piece(c1));
-        set_piece(c1, NONE);
+        set_piece(c1, make_unique<None>(turn));
     }
 }
 
@@ -257,6 +257,6 @@ bool Board::obstructed (Coord c1, Coord c2) { //works for Q R B
     return false; //no obstruction
 }
 
-void Board::set_piece(Coord c, Piece p) { b[c.row][c.col] = p; } //g
+void Board::set_piece(Coord c, pptr p) { b[c.row][c.col] = p; } //g
 
-Piece Board::get_piece(Coord c) { return b[c.row][c.col]; } //g
+pptr Board::get_piece(Coord c) { return b[c.row][c.col]; } //g

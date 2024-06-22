@@ -2,6 +2,8 @@
 
 #include "common.hpp"
 
+Colour turn = Colour::WHITE;
+
 Coord::Coord(int r, int c) {
     row = r;
     col = c;

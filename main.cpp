@@ -1,8 +1,6 @@
 
 #include "common.hpp"
 
-Colour turn = WHITE;
-
 int main()
 {
     Board b();

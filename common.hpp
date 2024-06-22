@@ -6,6 +6,7 @@
 #include <utility>
 #include <algorithm>
 #include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -14,6 +15,7 @@ ostream operator<<(ostream &, Piece &);
 
 using ROW = vector<Piece>;
 using BRD = vector<ROW>;
+using pptr = unique_ptr<Piece>;
 
 struct Coord {
     Coord(int r, int c);
@@ -25,6 +27,8 @@ enum class Colour {
     WHITE,
     BLACK,
 };
+
+extern Colour turn;
 
 void gotoxy(int x, int y);
 
@@ -38,5 +42,8 @@ void vert_line(int h);
 
 #include "Board.hpp"
 #include "Pieces.hpp"
+
+//globals
+
 
 #endif
