@@ -3,7 +3,7 @@
 
 class Board {
   private:
-    vector<vector<Piece>>[8][8] b; //Board
+    BRD b; //Board
   public:
     Board();
     void print();

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <vector>
 #include <memory>
+#include <windows.h>
 
 using namespace std;
 
@@ -18,14 +19,15 @@ using BRD = vector<ROW>;
 using pptr = unique_ptr<Piece>;
 
 struct Coord {
-    Coord(int r, int c);
-    int row;
-    int col;
+    Coord(int x, int y);
+    int x;
+    int y;
+    bool operator==(Coord);
 };
 
 enum class Colour {
     WHITE,
-    BLACK,
+    BLACK
 };
 
 extern Colour turn;
@@ -36,7 +38,7 @@ void gotocoor(Coord c);
 
 Coord getCursorPos();
 
-Coord operator=(Coord c1, COORD c2);
+Coord operator==(Coord c1, Coord c2);
 
 void vert_line(int h);
 

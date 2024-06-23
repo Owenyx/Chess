@@ -4,9 +4,9 @@
 
 Colour turn = Colour::WHITE;
 
-Coord::Coord(int r, int c) {
-    row = r;
-    col = c;
+Coord::Coord(int x, int y) {
+    this->x = x;
+    this->y = y;
 }
 
 void gotoxy(int x, int y) {
@@ -31,15 +31,13 @@ Coord getCursorPos() {
         std::cerr << "Error: Unable to get console cursor position" << std::endl;
     }
 
-    Coord c = coord; //everything else uses Coord struct
+    Coord c(coord.X, coord.Y); //everything else uses Coord struct
 
     return c;
 }
 
-Coord operator=(Coord c1, COORD c2) {
-    c1.x = c2.X;
-    c1.y = c2.Y;
-    return c1;
+bool Coord::operator==(Coord c) {
+    return (this->x == c.x && this->y == c.y);
 }
 
 void vert_line(int h) {
