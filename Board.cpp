@@ -153,7 +153,10 @@ bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
             return false; //if king moves more than 1 column, invalid
 
         //make sure it can't move into check, still need to add check function
+
+        return true; //otherwise valid
     }
+    return false;
 }
 
 bool Board::spawnPawn(Coord c) { //g
