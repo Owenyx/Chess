@@ -1,6 +1,9 @@
 #ifndef Board_hpp //include gaurd
 #define Board_hpp
 
+#include "common.hpp"
+#include "Pieces.hpp"
+
 class Board {
   private:
     BRD b; //Board

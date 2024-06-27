@@ -1,17 +1,17 @@
 #include "common.hpp"
+#include "Board.hpp"
 
 Board::Board() {
     b = BRD {
-        {Rook(Colour::BLACK),Knight(Colour::BLACK),Bishop(Colour::BLACK),Queen(Colour::BLACK),King(Colour::BLACK),Bishop(Colour::BLACK),Knight(Colour::BLACK),Rook(Colour::BLACK)},
-        {Pawn(Colour::BLACK),Pawn(Colour::BLACK),Pawn(Colour::BLACK),Pawn(Colour::BLACK),Pawn(Colour::BLACK),Pawn(Colour::BLACK),Pawn(Colour::BLACK),Pawn(Colour::BLACK)},
-        {None(),None(),None(),None(),None(),None(),None(),None()},
-        {None(),None(),None(),None(),None(),None(),None(),None()},
-        {None(),None(),None(),None(),None(),None(),None(),None()},
-        {None(),None(),None(),None(),None(),None(),None(),None()},
-        {Pawn(Colour::WHITE),Pawn(Colour::WHITE),Pawn(Colour::WHITE),Pawn(Colour::WHITE),Pawn(Colour::WHITE),Pawn(Colour::WHITE),Pawn(Colour::WHITE),Pawn(Colour::WHITE)},
-        {Rook(Colour::WHITE),Knight(Colour::WHITE),Bishop(Colour::WHITE),Queen(Colour::WHITE),King(Colour::WHITE),Bishop(Colour::WHITE),Knight(Colour::WHITE),Rook(Colour::WHITE)}
+        {make_unique<Rook>(Colour::BLACK),make_unique<Knight>(Colour::BLACK),make_unique<Bishop>(Colour::BLACK),make_unique<Queen>(Colour::BLACK),make_unique<King>(Colour::BLACK),make_unique<Bishop>(Colour::BLACK),make_unique<Knight>(Colour::BLACK),make_unique<Rook>(Colour::BLACK)},
+        {make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK)},
+        {make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>()},
+        {make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>()},
+        {make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>()},
+        {make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>()},
+        {make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE)},
+        {make_unique<Rook>(Colour::WHITE),make_unique<Knight>(Colour::WHITE),make_unique<Bishop>(Colour::WHITE),make_unique<Queen>(Colour::WHITE),make_unique<King>(Colour::WHITE),make_unique<Bishop>(Colour::WHITE),make_unique<Knight>(Colour::WHITE),make_unique<Rook>(Colour::WHITE)}
     };
-    //set correct colours
 }
 
 void Board::print() {
@@ -257,8 +257,8 @@ bool Board::obstructed (Coord c1, Coord c2) { //works for Q R B
     return false; //no obstruction
 }
 
-void Board::set_piece(Coord c, unique_ptr<Piece> &p) { b[c.x][c.y] = p; } //g
+void Board::set_piece(Coord c, unique_ptr<Piece> &p) { b[c.x][c.y] = std::move(p); } //g
 
-void Board::set_piece(Coord c, unique_ptr<Piece> &&p) { b[c.x][c.y] = p; } //g
+void Board::set_piece(Coord c, unique_ptr<Piece> &&p) { b[c.x][c.y] = std::move(p); } //g
 
 unique_ptr<Piece> Board::get_piece(Coord c) { return make_unique<Piece>(b[c.x][c.y]); } //g

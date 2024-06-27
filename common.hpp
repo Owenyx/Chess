@@ -11,11 +11,13 @@
 
 using namespace std;
 
+struct Piece;
+
+using ROW = vector<unique_ptr<Piece>>;
+using BRD = vector<ROW>;
+
 ostream operator<<(ostream &, ROW &);
 ostream operator<<(ostream &, Piece &);
-
-using ROW = vector<Piece>;
-using BRD = vector<ROW>;
 
 struct Coord {
     Coord(int x, int y);
@@ -40,9 +42,6 @@ Coord getCursorPos();
 //Coord operator==(Coord c1, Coord c2);
 
 void vert_line(int h);
-
-#include "Board.hpp"
-#include "Pieces.hpp"
 
 //globals
 
