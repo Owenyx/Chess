@@ -16,7 +16,6 @@ ostream operator<<(ostream &, Piece &);
 
 using ROW = vector<Piece>;
 using BRD = vector<ROW>;
-using pptr = unique_ptr<Piece>;
 
 struct Coord {
     Coord(int x, int y);
@@ -38,7 +37,7 @@ void gotocoor(Coord c);
 
 Coord getCursorPos();
 
-Coord operator==(Coord c1, Coord c2);
+//Coord operator==(Coord c1, Coord c2);
 
 void vert_line(int h);
 

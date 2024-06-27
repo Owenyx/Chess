@@ -21,16 +21,16 @@ void Board::print() {
     int height = 7; //of the tallest piece
     string horz_line(width*8 + 9, ' '); //8 spaces per row + 9 seperating lines gives total width
 
-    for (auto r : b) {
+    for (int r=0; r<8; r++) {
         x = 0;
         gotoxy(x,y);
         cout << horz_line << endl;
         y++; //each endl incurs a row increase
         vert_line(height); //left edge
         x++;
-        for (auto p : r) {
+        for (int c=0; c<8; c++) {
             gotoxy(x,y);
-            p.print();
+            get_piece(Coord(r,c))->print();
             x += width;
             gotoxy(x,y);
             vert_line(height);
@@ -58,8 +58,8 @@ bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
         c2.x < 0 || c2.x > 7 || c2.y < 0 || c2.y > 7)
         return false; //OOB
 
-    pptr p1 = get_piece(c1);
-    pptr p2 = get_piece(c2);
+    auto p1 = get_piece(c1);
+    auto p2 = get_piece(c2);
     
     //check if the piece belongs to that player
     if (p1->colour != turn)
@@ -157,7 +157,7 @@ bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
 }
 
 bool Board::spawnPawn(Coord c) { //g
-    pptr p = get_piece(c);
+    unique_ptr<Piece> p = get_piece(c);
     if (p->type = 1 && p->colour == Colour::WHITE && c.x == 6) return true;
     if (p->type = 1 && p->colour == Colour::BLACK && c.x == 1) return true;
     return false;
@@ -168,11 +168,11 @@ bool Board::enPassantable(Coord c) {
         return false; //only rows 3 and 6 (on the actual board) can be en passantable
     
     //get the piece that would be advanced
-    pptr p = make_unique<Piece>();
+    unique_ptr<Pawn> p = make_unique<Pawn>(Colour::WHITE);
     if (turn == Colour::WHITE)
-        p = get_piece(Coord(c.x - 1, c.y));
+        p = unique_ptr<Pawn>(dynamic_cast<Pawn*>(get_piece(Coord(c.x - 1, c.y)).release()));
     else
-        p = get_piece(Coord(c.x + 1, c.y));
+        p = unique_ptr<Pawn>(dynamic_cast<Pawn*>(get_piece(Coord(c.x + 1, c.y)).release()));
         
     if (p->type != 1)
         return false; //has to be a pawn;
@@ -257,6 +257,8 @@ bool Board::obstructed (Coord c1, Coord c2) { //works for Q R B
     return false; //no obstruction
 }
 
-void Board::set_piece(Coord c, pptr p) { b[c.x][c.y] = p; } //g
+void Board::set_piece(Coord c, unique_ptr<Piece> &p) { b[c.x][c.y] = p; } //g
 
-pptr Board::get_piece(Coord c) { return make_unique<Piece>(b[c.x][c.y]); } //g
+void Board::set_piece(Coord c, unique_ptr<Piece> &&p) { b[c.x][c.y] = p; } //g
+
+unique_ptr<Piece> Board::get_piece(Coord c) { return make_unique<Piece>(b[c.x][c.y]); } //g

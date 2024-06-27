@@ -36,9 +36,9 @@ Coord getCursorPos() {
     return c;
 }
 
-bool Coord::operator==(Coord c) {
-    return (this->x == c.x && this->y == c.y);
-}
+//bool Coord::operator==(Coord c) {
+//    return (this->x == c.x && this->y == c.y);
+//}
 
 void vert_line(int h) {
     Coord c = getCursorPos();
