@@ -41,11 +41,13 @@ void Board::print() {
     }
 }
 
-void Board::move(Coord c1, Coord c2) { //g
+bool Board::move(Coord c1, Coord c2) { //g
     if (valid(c1, c2)) {
         set_piece(c2, get_piece(c1));
         set_piece(c1, make_shared<None>());
+        return true;   //successful
     }
+    else return false; //unsuccessful
 }
 
 bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
@@ -158,6 +160,11 @@ bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
         return true; //otherwise valid
     }
     return false;
+}
+
+Coord Board::selectPiece() {
+    //get mouse input using curses
+    
 }
 
 bool Board::spawnPawn(Coord c) { //g

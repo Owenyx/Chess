@@ -10,8 +10,10 @@ class Board {
   public:
     Board();
     void print();
-    void move(Coord c1, Coord c2);
+    bool move(Coord c1, Coord c2); //ret true if success, 1 if not, along with actually moving the piece
     bool valid(Coord c1, Coord c2);
+    Coord selectPiece(); //gets a mouse input and converts it into a Coord of the clicked piece
+    void highlightPiece(Coord c);
     bool spawnPawn(Coord c);
     bool enPassantable(Coord c); //checks if a given pawn can be killed with en passant
     bool obstructed (Coord c1, Coord c2);

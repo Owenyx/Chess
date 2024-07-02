@@ -8,6 +8,8 @@
 #include <vector>
 #include <memory>
 #include <windows.h>
+#include <ncurses.h>
+
 
 using namespace std;
 
@@ -46,6 +48,6 @@ Coord getCursorPos();
 void vert_line(int x, int y, int h);
 
 //globals
-
+Colour turn;
 
 #endif
