@@ -15,12 +15,12 @@ Board::Board() {
 }
 
 void Board::print() {
-    system("cls"); //clear the screen
+    clearScreen();
     int x = 0;
-    int y = 6; //starting y is offset due to above text
+    int y = 0; //starting y is offset due to above text
     int width = 12; //of the widest piece
     int height = 7; //of the tallest piece
-    string horz_line(width*8 + 9, ' '); //8 spaces per row + 9 seperating lines gives total width
+    string horz_line(width*8 + 9, '-'); //8 spaces per row + 9 seperating lines gives total width
 
     for (int r=0; r<8; r++) {
         x = 0;
@@ -40,34 +40,6 @@ void Board::print() {
         y += height;
     }
 }
-
-/*
-void Board::print() {
-    int x = 0;
-    int y = 0;
-    int width = 12; //of the widest piece
-    int height = 7; //of the tallest piece
-    string horz_line(width*8 + 9, ' '); //8 spaces per row + 9 seperating lines gives total width
-
-    for (int r=0; r<8; r++) {
-        x = 0;
-        gotoxy(x,y);
-        cout << horz_line << endl;
-        y++; //each endl incurs a row increase
-        vert_line(height); //left edge
-        x++;
-        for (int c=0; c<8; c++) {
-            gotoxy(x,y);
-            get_piece(Coord(r,c))->print();
-            x += width;
-            gotoxy(x,y);
-            vert_line(height);
-            x++;
-        }
-        y += height;
-    }
-}
-*/
 
 void Board::move(Coord c1, Coord c2) { //g
     if (valid(c1, c2)) {

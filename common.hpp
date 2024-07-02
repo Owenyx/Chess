@@ -33,6 +33,8 @@ enum class Colour {
 
 extern Colour turn;
 
+void clearScreen();
+
 void gotoxy(int x, int y);
 
 void gotocoor(Coord c);

@@ -9,6 +9,11 @@ Coord::Coord(int x, int y) {
     this->y = y;
 }
 
+void clearScreen() {
+    // ANSI escape code to clear screen
+    std::cout << "\033[2J\033[1;1H";
+}
+
 void gotoxy(int x, int y) {
     COORD coord;
     coord.X = x;
@@ -44,8 +49,8 @@ void vert_line(int x, int y, int h) {
     //Coord c = getCursorPos();
     //int x = c.x;
     //int y = c.y;
-    h += y;
-    while (y > h) { //draws top down 
+    h += y; //set height = to the current position + height needed
+    for (; y < h; y++) { //draws top down 
         gotoxy(x,y);
         cout << '|';
     }

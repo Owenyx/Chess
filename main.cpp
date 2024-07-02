@@ -4,10 +4,10 @@
 
 int main()
 {
-    system("cls"); //clear screen
+    clearScreen();
     Board b;
-    cout << "White's Turn";
     b.print();
+    cout << "\nWhite's Turn";
     
     //set just_double_moved to false for all opposite coloured pawns at end of EACH turn
     return 0;

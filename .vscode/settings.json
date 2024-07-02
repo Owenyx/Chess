@@ -13,6 +13,12 @@
         "iosfwd": "cpp",
         "array": "cpp",
         "functional": "cpp",
-        "random": "cpp"
-    }
+        "random": "cpp",
+        "iostream": "cpp"
+    },
+    "editor.fontSize": 14, // Adjust the font size value as needed
+    //"terminal.integrated.fontFamily": "Fira Code",
+    //"terminal.integrated.fontFamily": "IBM Plex Mono",
+    "terminal.integrated.fontFamily": "Droid Sans Mono",
+    "terminal.integrated.fontSize": 6
 }
