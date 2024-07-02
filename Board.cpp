@@ -3,17 +3,45 @@
 
 Board::Board() {
     b = BRD {
-        {make_unique<Rook>(Colour::BLACK),make_unique<Knight>(Colour::BLACK),make_unique<Bishop>(Colour::BLACK),make_unique<Queen>(Colour::BLACK),make_unique<King>(Colour::BLACK),make_unique<Bishop>(Colour::BLACK),make_unique<Knight>(Colour::BLACK),make_unique<Rook>(Colour::BLACK)},
-        {make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK),make_unique<Pawn>(Colour::BLACK)},
-        {make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>()},
-        {make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>()},
-        {make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>()},
-        {make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>(),make_unique<None>()},
-        {make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE),make_unique<Pawn>(Colour::WHITE)},
-        {make_unique<Rook>(Colour::WHITE),make_unique<Knight>(Colour::WHITE),make_unique<Bishop>(Colour::WHITE),make_unique<Queen>(Colour::WHITE),make_unique<King>(Colour::WHITE),make_unique<Bishop>(Colour::WHITE),make_unique<Knight>(Colour::WHITE),make_unique<Rook>(Colour::WHITE)}
+        {make_shared<Rook>(Colour::BLACK),make_shared<Knight>(Colour::BLACK),make_shared<Bishop>(Colour::BLACK),make_shared<Queen>(Colour::BLACK),make_shared<King>(Colour::BLACK),make_shared<Bishop>(Colour::BLACK),make_shared<Knight>(Colour::BLACK),make_shared<Rook>(Colour::BLACK)},
+        {make_shared<Pawn>(Colour::BLACK),make_shared<Pawn>(Colour::BLACK),make_shared<Pawn>(Colour::BLACK),make_shared<Pawn>(Colour::BLACK),make_shared<Pawn>(Colour::BLACK),make_shared<Pawn>(Colour::BLACK),make_shared<Pawn>(Colour::BLACK),make_shared<Pawn>(Colour::BLACK)},
+        {make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>()},
+        {make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>()},
+        {make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>()},
+        {make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>(),make_shared<None>()},
+        {make_shared<Pawn>(Colour::WHITE),make_shared<Pawn>(Colour::WHITE),make_shared<Pawn>(Colour::WHITE),make_shared<Pawn>(Colour::WHITE),make_shared<Pawn>(Colour::WHITE),make_shared<Pawn>(Colour::WHITE),make_shared<Pawn>(Colour::WHITE),make_shared<Pawn>(Colour::WHITE)},
+        {make_shared<Rook>(Colour::WHITE),make_shared<Knight>(Colour::WHITE),make_shared<Bishop>(Colour::WHITE),make_shared<Queen>(Colour::WHITE),make_shared<King>(Colour::WHITE),make_shared<Bishop>(Colour::WHITE),make_shared<Knight>(Colour::WHITE),make_shared<Rook>(Colour::WHITE)}
     };
 }
 
+void Board::print() {
+    system("cls"); //clear the screen
+    int x = 0;
+    int y = 6; //starting y is offset due to above text
+    int width = 12; //of the widest piece
+    int height = 7; //of the tallest piece
+    string horz_line(width*8 + 9, ' '); //8 spaces per row + 9 seperating lines gives total width
+
+    for (int r=0; r<8; r++) {
+        x = 0;
+        gotoxy(x,y);
+        cout << horz_line << endl;
+        y++; //each endl incurs a row increase
+        vert_line(x,y,height); //left edge
+        x++;
+        for (int c=0; c<8; c++) {
+            gotoxy(x,y);
+            get_piece(Coord(r,c))->print(x,y);
+            x += width;
+            gotoxy(x,y);
+            vert_line(x,y,height);
+            x++;
+        }
+        y += height;
+    }
+}
+
+/*
 void Board::print() {
     int x = 0;
     int y = 0;
@@ -39,18 +67,19 @@ void Board::print() {
         y += height;
     }
 }
+*/
 
 void Board::move(Coord c1, Coord c2) { //g
     if (valid(c1, c2)) {
         set_piece(c2, get_piece(c1));
-        set_piece(c1, make_unique<None>());
+        set_piece(c1, make_shared<None>());
     }
 }
 
 bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
 
     //check not moving
-    if (c1 == c2)
+    if (c1.x == c2.x && c1.y == c2.y)
         return false; //piece didn't move, invalid
 
     //check OOB
@@ -160,7 +189,7 @@ bool Board::valid(Coord c1, Coord c2) { //basically all of the moving logic ;)
 }
 
 bool Board::spawnPawn(Coord c) { //g
-    unique_ptr<Piece> p = get_piece(c);
+    auto p = get_piece(c);
     if (p->type = 1 && p->colour == Colour::WHITE && c.x == 6) return true;
     if (p->type = 1 && p->colour == Colour::BLACK && c.x == 1) return true;
     return false;
@@ -171,11 +200,13 @@ bool Board::enPassantable(Coord c) {
         return false; //only rows 3 and 6 (on the actual board) can be en passantable
     
     //get the piece that would be advanced
-    unique_ptr<Pawn> p = make_unique<Pawn>(Colour::WHITE);
+    shared_ptr<Piece> piecePtr;
     if (turn == Colour::WHITE)
-        p = unique_ptr<Pawn>(dynamic_cast<Pawn*>(get_piece(Coord(c.x - 1, c.y)).release()));
+        piecePtr = get_piece(Coord(c.x + 1, c.y));
     else
-        p = unique_ptr<Pawn>(dynamic_cast<Pawn*>(get_piece(Coord(c.x + 1, c.y)).release()));
+        piecePtr = get_piece(Coord(c.x + 1, c.y));
+    
+    shared_ptr<Pawn> p = dynamic_pointer_cast<Pawn>(piecePtr);
         
     if (p->type != 1)
         return false; //has to be a pawn;
@@ -260,8 +291,10 @@ bool Board::obstructed (Coord c1, Coord c2) { //works for Q R B
     return false; //no obstruction
 }
 
-void Board::set_piece(Coord c, unique_ptr<Piece> &p) { b[c.x][c.y] = std::move(p); } //g
+void Board::set_piece(Coord c, shared_ptr<Piece> &p) { b[c.x][c.y] = std::move(p); } //g
 
-void Board::set_piece(Coord c, unique_ptr<Piece> &&p) { b[c.x][c.y] = std::move(p); } //g
+void Board::set_piece(Coord c, shared_ptr<Piece> &&p) { b[c.x][c.y] = std::move(p); } //g
 
-unique_ptr<Piece> Board::get_piece(Coord c) { return make_unique<Piece>(b[c.x][c.y]); } //g
+shared_ptr<Piece> Board::get_piece(Coord c) { 
+    return b[c.x][c.y];
+}

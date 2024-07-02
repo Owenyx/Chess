@@ -40,10 +40,10 @@ Coord getCursorPos() {
 //    return (this->x == c.x && this->y == c.y);
 //}
 
-void vert_line(int h) {
-    Coord c = getCursorPos();
-    int x = c.x;
-    int y = c.y;
+void vert_line(int x, int y, int h) {
+    //Coord c = getCursorPos();
+    //int x = c.x;
+    //int y = c.y;
     h += y;
     while (y > h) { //draws top down 
         gotoxy(x,y);

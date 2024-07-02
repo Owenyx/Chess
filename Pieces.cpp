@@ -1,4 +1,5 @@
 #include "common.hpp"
+#include "Pieces.hpp"
 
 None::None() {
     type = 0;
@@ -35,11 +36,12 @@ King::King(Colour c) {
     type = 6;
 }
 
-void None::print() {
+void None::print(int x, int y) {
+    /*
     Coord c = getCursorPos();
     int x = c.x;
     int y = c.y;
-
+    */
     int width = 12;
     int height = 7;
     for (int i = 0; i < height; i++, y++) {
@@ -48,11 +50,12 @@ void None::print() {
     }
 }
 
-void Pawn::print() {
+void Pawn::print(int x, int y) {
+    /*
     Coord c = getCursorPos();
     int x = c.x;
     int y = c.y;
-
+    */
     y += 2; //to make up for pawn being 2 short
     gotoxy(x,y);
 
@@ -63,11 +66,12 @@ void Pawn::print() {
     cout << "  `-----'   ";
 }
 
-void Rook::print() {
+void Rook::print(int x, int y) {
+    /*
     Coord c = getCursorPos();
     int x = c.x;
     int y = c.y;
-
+    */
     cout << "    _   _   "; y++; gotoxy(x,y);
     cout << "   | |_| |  "; y++; gotoxy(x,y);
     cout << "   |     |  "; y++; gotoxy(x,y);
@@ -77,11 +81,12 @@ void Rook::print() {
     cout << "  '._____.' ";
 }
 
-void Knight::print() {
+void Knight::print(int x, int y) {
+    /*
     Coord c = getCursorPos();
     int x = c.x;
     int y = c.y;
-
+    */
     y += 1; //to make up for horse being 1 short
     gotoxy(x,y);
 
@@ -93,11 +98,12 @@ void Knight::print() {
     cout << "  `.____.'  ";
 }
 
-void Bishop::print() {
+void Bishop::print(int x, int y) {
+    /*
     Coord c = getCursorPos();
     int x = c.x;
     int y = c.y;
-
+    */
     gotoxy(x,y);
 
     cout << "    .-.     "; y++; gotoxy(x,y);
@@ -109,11 +115,12 @@ void Bishop::print() {
     cout << "  '--^--'   ";
 }
 
-void Queen::print() {
+void Queen::print(int x, int y) {
+    /*
     Coord c = getCursorPos();
     int x = c.x;
     int y = c.y;
-
+    */
     y += 1; //to make up for Queen being 1 short
     gotoxy(x,y);
 
@@ -125,11 +132,12 @@ void Queen::print() {
     cout << "  '.____.'  ";
 }
 
-void King::print() {
+void King::print(int x, int y) {
+    /*
     Coord c = getCursorPos();
     int x = c.x;
     int y = c.y;
-
+    */
     gotoxy(x,y);
 
     cout << "     _      "; y++; gotoxy(x,y);

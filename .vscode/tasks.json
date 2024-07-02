@@ -1,3 +1,4 @@
+
 {
     "version": "2.0.0",
     "tasks": [
@@ -7,7 +8,10 @@
             "command": "g++",
             "args": [
                 "-g",
-                "${file}",
+                "main.cpp",      // Add all relevant source files here
+                "Board.cpp",     // List all .cpp files needed for your project
+                "Pieces.cpp",
+                "common.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

@@ -4,6 +4,7 @@
 
 int main()
 {
+    system("cls"); //clear screen
     Board b;
     cout << "White's Turn";
     b.print();

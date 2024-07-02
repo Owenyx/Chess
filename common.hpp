@@ -13,7 +13,7 @@ using namespace std;
 
 struct Piece;
 
-using ROW = vector<unique_ptr<Piece>>;
+using ROW = vector<shared_ptr<Piece>>;
 using BRD = vector<ROW>;
 
 ostream operator<<(ostream &, ROW &);
@@ -41,7 +41,7 @@ Coord getCursorPos();
 
 //Coord operator==(Coord c1, Coord c2);
 
-void vert_line(int h);
+void vert_line(int x, int y, int h);
 
 //globals
 

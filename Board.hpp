@@ -15,9 +15,9 @@ class Board {
     bool spawnPawn(Coord c);
     bool enPassantable(Coord c); //checks if a given pawn can be killed with en passant
     bool obstructed (Coord c1, Coord c2);
-    void set_piece(Coord c, unique_ptr<Piece> &p);
-    void set_piece(Coord c, unique_ptr<Piece> &&p);
-    unique_ptr<Piece> get_piece(Coord c);
+    void set_piece(Coord c, shared_ptr<Piece> &p);
+    void set_piece(Coord c, shared_ptr<Piece> &&p);
+    shared_ptr<Piece> get_piece(Coord c);
 };
 
 #endif
